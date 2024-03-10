@@ -39,10 +39,15 @@ dependencies:
   cloud_firestore: ^4.15.5
   file_picker: ^6.1.1
   firebase_storage: ^11.6.6
-
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/adminlogo.png"
 
 
   # The "flutter_lints" package below contains a set of recommended lints to
