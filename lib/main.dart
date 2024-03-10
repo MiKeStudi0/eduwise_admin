@@ -63,19 +63,25 @@ class MyAppHomePage extends StatelessWidget {
               leading: Icon(Icons.home),
               title: Text('uploadscreen'),
               onTap: () {
-                UploadDataPage();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UploadDataPage()),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.home),
               title: Text('Card_data_gen'),
               onTap: () {
-                Carddata_gen();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Carddata_gen()),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.person),
-              title: Text('Category Upload'),
+              title: Text('Category Upload not work'),
               onTap: () {
                 // CategoryUpload(); this not working do check
               },
@@ -84,54 +90,75 @@ class MyAppHomePage extends StatelessWidget {
               leading: Icon(Icons.settings),
               title: Text('Course'),
               onTap: () {
-                CourseUpload();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CourseUpload()),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.notifications),
               title: Text('courseadder'),
               onTap: () {
-                courseadder();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => courseadder()),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.calendar_today),
               title: Text('course Generator'),
               onTap: () {
-                CourseGenerator();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CourseGenerator()),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.shopping_cart),
               title: Text('Degree'),
               onTap: () {
-                DegreeUpload();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DegreeUpload()),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.email),
               title: Text('Department'),
               onTap: () {
-                DepartmentUpload();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DepartmentUpload()),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.chat),
               title: Text('retrieve'),
               onTap: () {
-                RetrieveDocument();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RetrieveDocument()),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.photo),
               title: Text('semester'),
               onTap: () {
-                SemesterUpload();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SemesterUpload()),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.video_library),
-              title: Text('withpdf'),
+              title: Text('withpdf not work'),
               onTap: () {
                 // CategoryUpload(); this also not work
               },
@@ -140,35 +167,40 @@ class MyAppHomePage extends StatelessWidget {
               leading: Icon(Icons.music_note),
               title: Text('dept. firestore'),
               onTap: () {
-                FirestoreListView();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FirestoreListView()),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.map),
               title: Text('ktucourse'),
               onTap: () {
-                FirestoreListView();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FirestoreListView()),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.book),
               title: Text('se'),
               onTap: () {
-                FirestoreListView();
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.gamepad),
-              title: Text('Games'),
-              onTap: () {
-                // Navigate to Games screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FirestoreListView()),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.code),
               title: Text('dropdown'),
               onTap: () {
-                FirestoreListView();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FirestoreListView()),
+                );
               },
             ),
           ],
