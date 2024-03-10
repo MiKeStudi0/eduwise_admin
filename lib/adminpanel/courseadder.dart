@@ -1,13 +1,14 @@
 import 'package:eduwise_admin/adminpanel/categoryupload.dart';
+import 'package:eduwise_admin/adminpanel/course.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CourseUpload extends StatefulWidget {
+class courseadder extends StatefulWidget {
   @override
-  _CourseUploadState createState() => _CourseUploadState();
+  _courseadderState createState() => _courseadderState();
 }
 
-class _CourseUploadState extends State<CourseUpload> {
+class _courseadderState extends State<courseadder> {
   String? _selectedUniversityId;
   String? _selectedDegreeId;
   String? _selectedPropertyId;
