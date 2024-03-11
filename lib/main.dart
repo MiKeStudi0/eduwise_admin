@@ -1,6 +1,5 @@
 import 'package:eduwise_admin/Dropdownlist.dart';
 import 'package:eduwise_admin/adminpanel/card_data_gen.dart';
-import 'package:eduwise_admin/adminpanel/categoryupload.dart';
 import 'package:eduwise_admin/adminpanel/course.dart';
 import 'package:eduwise_admin/adminpanel/courseadder.dart';
 import 'package:eduwise_admin/adminpanel/coursegenerator.dart';
