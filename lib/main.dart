@@ -2,7 +2,6 @@ import 'package:eduwise_admin/Generator/category.dart';
 import 'package:eduwise_admin/Generator/course.dart';
 import 'package:eduwise_admin/adminpanel/course.dart';
 import 'package:eduwise_admin/adminpanel/courseadder.dart';
-import 'package:eduwise_admin/adminpanel/coursegenerator.dart';
 import 'package:eduwise_admin/Generator/degree.dart';
 import 'package:eduwise_admin/Generator/department.dart';
 import 'package:eduwise_admin/adminpanel/retrive.dart';
@@ -148,15 +147,7 @@ class MyAppHomePage extends StatelessWidget {
               },
             ),
            
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Category Upload not work'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) =>  CategoryUpload()),);
-              },
-            ),
+          
             ListTile(
               leading: Icon(Icons.settings),
               title: Text('Course'),
@@ -177,16 +168,7 @@ class MyAppHomePage extends StatelessWidget {
                 );
               },
             ),
-            ListTile(
-              leading: Icon(Icons.calendar_today),
-              title: Text('course Generator'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CourseGenerator()),
-                );
-              },
-            ),
+          
             ListTile(
               leading: Icon(Icons.chat),
               title: Text('retrieve'),
