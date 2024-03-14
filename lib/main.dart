@@ -1,6 +1,5 @@
 import 'package:eduwise_admin/Generator/category.dart';
 import 'package:eduwise_admin/Generator/course.dart';
-import 'package:eduwise_admin/adminpanel/card_data_gen.dart';
 import 'package:eduwise_admin/adminpanel/course.dart';
 import 'package:eduwise_admin/adminpanel/courseadder.dart';
 import 'package:eduwise_admin/adminpanel/coursegenerator.dart';
@@ -214,7 +213,9 @@ class MyAppHomePage extends StatelessWidget {
           ],
         ),
       ),
-      body: Carddata_gen(),
+      body: const Center(
+        child: Text('Welcome to Admin Panel!'),
+      )
     );
   }
 }
