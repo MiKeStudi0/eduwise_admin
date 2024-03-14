@@ -1,4 +1,3 @@
-import 'package:eduwise_admin/adminpanel/course.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -231,11 +230,7 @@ class _SemesterUploadState extends State<SemesterUpload> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Navigate to the second screen
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CourseUpload()),
-                );
+                
               },
               child: const Text('Go course',
                   style: TextStyle(color: Colors.white)),

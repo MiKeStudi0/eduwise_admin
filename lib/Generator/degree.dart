@@ -1,5 +1,4 @@
 import 'package:eduwise_admin/Generator/department.dart';
-import 'package:eduwise_admin/adminpanel/retrive.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -60,32 +59,9 @@ class _DegreeUploadState extends State<DegreeUpload> {
                   onPressed: () {
                     _addNamesWithSubcollections();
                   },
-                  child: Text('Add Names with Subcollections'),
+                  child: Text('Create Subcollections'),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Navigate to the second screen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DepartmentUpload()),
-                    );
-                  },
-                  child: Text('Department Screen',
-                      style: TextStyle(color: Colors.white)),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Navigate to the second screen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => RetrieveDocument()),
-                    );
-                  },
-                  child: Text('retive Screen',
-                      style: TextStyle(color: Colors.white)),
-                ),
+               
               ],
             ),
           );

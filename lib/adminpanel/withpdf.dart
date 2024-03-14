@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:eduwise_admin/adminpanel/categoryupload.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -369,17 +368,7 @@ class _CourseUploadState extends State<CourseUpload> {
               if (_filePath != null) Text('Selected PDF: $_filePath'),
               SizedBox(height: 20),
               SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // Navigate to the second screen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CategoryUpload()),
-                  );
-                },
-                child: Text('Course Screen',
-                    style: TextStyle(color: Colors.white)),
-              ),
+              
               SizedBox(height: 20),
               ElevatedButton(
                   onPressed: () {
