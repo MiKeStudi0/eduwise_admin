@@ -14,7 +14,7 @@ class CategoryUpload extends StatefulWidget {
 class _CategoryUploadState extends State<CategoryUpload> {
   String? _selectedUniversityId;
   String? _selectedDegreeId;
-  String? _selectedPropertyId;
+  String? _department;
   String? _selectedSemesterId;
   String? _selectedPath;
   String? _newUploadPath;
@@ -72,7 +72,7 @@ class _CategoryUploadState extends State<CategoryUpload> {
                           setState(() {
                             _selectedUniversityId = newValue;
                             _selectedDegreeId = null;
-                            _selectedPropertyId = null;
+                            _department = null;
                             _selectedSemesterId =
                                 null; // Reset selected semester
                             _selectedPath = null; // Reset selected path
@@ -128,7 +128,7 @@ class _CategoryUploadState extends State<CategoryUpload> {
                                   onChanged: (String? newValue) {
                                     setState(() {
                                       _selectedDegreeId = newValue;
-                                      _selectedPropertyId = null;
+                                      _department = null;
                                       _selectedSemesterId =
                                           null; // Reset selected semester
                                       _selectedPath =
@@ -185,10 +185,10 @@ class _CategoryUploadState extends State<CategoryUpload> {
                                 DropdownButton<String>(
                                   isExpanded: true,
                                   hint: const Text('Select a Course'),
-                                  value: _selectedPropertyId,
+                                  value: _department,
                                   onChanged: (String? newValue) {
                                     setState(() {
-                                      _selectedPropertyId = newValue;
+                                      _department = newValue;
                                       _selectedSemesterId =
                                           null; // Reset selected semester
                                       _updateSelectedPath(); // Update selected path
@@ -437,7 +437,7 @@ class _CategoryUploadState extends State<CategoryUpload> {
   void _updateSelectedPath() {
     setState(() {
       _selectedPath =
-          '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedPropertyId/Refers';
+          '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_department/Refers';
     });
   }
 }

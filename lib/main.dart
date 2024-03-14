@@ -1,12 +1,13 @@
-import 'package:eduwise_admin/core%20generator/course.dart';
+import 'package:eduwise_admin/Generator/category.dart';
+import 'package:eduwise_admin/Generator/course.dart';
 import 'package:eduwise_admin/adminpanel/card_data_gen.dart';
 import 'package:eduwise_admin/adminpanel/course.dart';
 import 'package:eduwise_admin/adminpanel/courseadder.dart';
 import 'package:eduwise_admin/adminpanel/coursegenerator.dart';
-import 'package:eduwise_admin/core%20generator/degree.dart';
-import 'package:eduwise_admin/core%20generator/department.dart';
+import 'package:eduwise_admin/Generator/degree.dart';
+import 'package:eduwise_admin/Generator/department.dart';
 import 'package:eduwise_admin/adminpanel/retrive.dart';
-import 'package:eduwise_admin/core%20generator/semester.dart';
+import 'package:eduwise_admin/Generator/semester.dart';
 import 'package:eduwise_admin/firebase_options.dart';
 import 'package:eduwise_admin/uploadscreen.dart';
 import 'package:flutter/material.dart';
@@ -121,6 +122,20 @@ class MyAppHomePage extends StatelessWidget {
                                  },
                                ),
                  ),
+
+                  Padding(
+                   padding: const EdgeInsets.only(left: 30.0),
+                    child: ListTile(
+                                  leading: Icon(Icons.install_mobile, color: Colors.blue),
+                                  title: Text('Category'),
+                                  onTap: () {
+                                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Category_Generator()),
+                                    );
+                                  },
+                                ),
+                  ),
               ],
             ),
             ListTile(
@@ -133,16 +148,7 @@ class MyAppHomePage extends StatelessWidget {
                 );
               },
             ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Card_data_gen'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Carddata_gen()),
-                );
-              },
-            ),
+           
             ListTile(
               leading: Icon(Icons.person),
               title: Text('Category Upload not work'),

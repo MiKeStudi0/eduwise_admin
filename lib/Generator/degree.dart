@@ -1,4 +1,4 @@
-import 'package:eduwise_admin/core%20generator/department.dart';
+import 'package:eduwise_admin/Generator/department.dart';
 import 'package:eduwise_admin/adminpanel/retrive.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
