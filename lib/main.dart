@@ -50,13 +50,64 @@ class MyAppHomePage extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text(
-                'Navigation Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+              child: Center(
+                child: Text(
+                  'Navigation Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
                 ),
               ),
+            ),
+             Column(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.admin_panel_settings, color: Colors.red),
+                  title: Text('Core Items'),
+                  onTap: () {},
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0),
+                  child: ListTile(
+                    leading: Icon(Icons.school, color: Colors.blue),
+                    title: Text('Degree'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DegreeUpload()),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0),
+                  child: ListTile(
+                    leading: Icon(Icons.book, color: Colors.blue),
+                    title: Text('Department'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DepartmentUpload()),
+                      );
+                    },
+                  ),
+                ),
+                 Padding(
+                   padding: const EdgeInsets.only(left: 30.0),
+                   child: ListTile(
+                                 leading: Icon(Icons.search, color: Colors.blue),
+                                 title: Text('Semester'),
+                                 onTap: () {
+                                   Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SemesterUpload()),
+                                   );
+                                 },
+                               ),
+                 ),
+              ],
             ),
             ListTile(
               leading: Icon(Icons.home),
@@ -82,7 +133,9 @@ class MyAppHomePage extends StatelessWidget {
               leading: Icon(Icons.person),
               title: Text('Category Upload not work'),
               onTap: () {
-                // CategoryUpload(); this not working do check
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  CategoryUpload()),);
               },
             ),
             ListTile(
@@ -116,26 +169,6 @@ class MyAppHomePage extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.shopping_cart),
-              title: Text('Degree'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DegreeUpload()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.email),
-              title: Text('Department'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DepartmentUpload()),
-                );
-              },
-            ),
-            ListTile(
               leading: Icon(Icons.chat),
               title: Text('retrieve'),
               onTap: () {
@@ -145,16 +178,7 @@ class MyAppHomePage extends StatelessWidget {
                 );
               },
             ),
-            ListTile(
-              leading: Icon(Icons.photo),
-              title: Text('semester'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SemesterUpload()),
-                );
-              },
-            ),
+           
             ListTile(
               leading: Icon(Icons.video_library),
               title: Text('withpdf not work'),
@@ -202,6 +226,7 @@ class MyAppHomePage extends StatelessWidget {
                 );
               },
             ),
+           
           ],
         ),
       ),

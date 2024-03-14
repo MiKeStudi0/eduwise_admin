@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:eduwise_admin/adminpanel/degree.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -350,10 +349,10 @@ class _UploadDataPageState extends State<UploadDataPage> {
               ElevatedButton(
                 onPressed: () {
                   // Navigate to the second screen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => DegreeUpload()),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => DegreeUpload()),
+                  // );
                 },
                 child: Text('Degree Screen',
                     style: TextStyle(color: Colors.white)),
