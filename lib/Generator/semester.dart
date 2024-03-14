@@ -1,15 +1,16 @@
+import 'package:eduwise_admin/adminpanel/course.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirestoreListView extends StatefulWidget {
+class SemesterUpload extends StatefulWidget {
   @override
-  _FirestoreListViewState createState() => _FirestoreListViewState();
+  _SemesterUploadState createState() => _SemesterUploadState();
 }
 
-class _FirestoreListViewState extends State<FirestoreListView> {
+class _SemesterUploadState extends State<SemesterUpload> {
   String? _selectedUniversityId;
   String? _selectedDegreeId;
-  String? _selectedPropertyId;
+  String? _selectedDepartment;
 
   // Define a list of predefined document names
   final List<String> predefinedDocumentNames = [
@@ -71,7 +72,7 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                         setState(() {
                           _selectedUniversityId = newValue;
                           _selectedDegreeId = null;
-                          _selectedPropertyId = null;
+                          _selectedDepartment = null;
                         });
                       },
                       items: universitySnapshot.data!.docs
@@ -128,7 +129,7 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                         onChanged: (String? newValue) {
                           setState(() {
                             _selectedDegreeId = newValue;
-                            _selectedPropertyId = null;
+                            _selectedDepartment = null;
                           });
                         },
                         items: degreeSnapshot.data!.docs
@@ -156,15 +157,15 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                         '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers')
                     .snapshots(),
                 builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> propertySnapshot) {
-                  if (propertySnapshot.connectionState ==
+                    AsyncSnapshot<QuerySnapshot> departmentSnapshot) {
+                  if (departmentSnapshot.connectionState ==
                       ConnectionState.waiting) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }
-                  if (!propertySnapshot.hasData ||
-                      propertySnapshot.data!.docs.isEmpty) {
+                  if (!departmentSnapshot.hasData ||
+                      departmentSnapshot.data!.docs.isEmpty) {
                     return const Center(
                       child: Text('No Course found for the selected Degree'),
                     );
@@ -181,13 +182,13 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                       DropdownButton<String>(
                         isExpanded: true,
                         hint: const Text('Select a Course'),
-                        value: _selectedPropertyId,
+                        value: _selectedDepartment,
                         onChanged: (String? newValue) {
                           setState(() {
-                            _selectedPropertyId = newValue;
+                            _selectedDepartment = newValue;
                           });
                         },
-                        items: propertySnapshot.data!.docs
+                        items: departmentSnapshot.data!.docs
                             .map((DocumentSnapshot document) {
                           return DropdownMenuItem<String>(
                             value: document.id,
@@ -208,10 +209,10 @@ class _FirestoreListViewState extends State<FirestoreListView> {
             ElevatedButton(
               onPressed: (_selectedUniversityId != null &&
                       _selectedDegreeId != null &&
-                      _selectedPropertyId != null)
+                      _selectedDepartment != null)
                   ? () {
                       String path =
-                          '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedPropertyId/Refers';
+                          '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedDepartment/Refers';
                       print('Generated Path: $path');
                       _createSubcollection(path);
                     }
@@ -226,6 +227,18 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                 ),
                 foregroundColor: Colors.blue,
               ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to the second screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CourseUpload()),
+                );
+              },
+              child: const Text('Go course',
+                  style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
