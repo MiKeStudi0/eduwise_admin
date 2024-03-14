@@ -4,6 +4,7 @@ import 'package:eduwise_admin/Generator/degree.dart';
 import 'package:eduwise_admin/Generator/department.dart';
 import 'package:eduwise_admin/Generator/semester.dart';
 import 'package:eduwise_admin/firebase_options.dart';
+import 'package:eduwise_admin/upload_screen/upload_notes_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -140,8 +141,8 @@ class MyAppHomePage extends StatelessWidget {
             ],
           ),
         ),
-        body: const Center(
-          child: Text('Welcome to Admin Panel!'),
+        body:  Center(
+          child: UploadPdfScreen(),
         ));
   }
 }
