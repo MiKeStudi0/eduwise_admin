@@ -1,12 +1,12 @@
-import 'package:eduwise_admin/Dropdownlist.dart';
+import 'package:eduwise_admin/core%20generator/course.dart';
 import 'package:eduwise_admin/adminpanel/card_data_gen.dart';
 import 'package:eduwise_admin/adminpanel/course.dart';
 import 'package:eduwise_admin/adminpanel/courseadder.dart';
 import 'package:eduwise_admin/adminpanel/coursegenerator.dart';
-import 'package:eduwise_admin/adminpanel/degree.dart';
-import 'package:eduwise_admin/adminpanel/department.dart';
+import 'package:eduwise_admin/core%20generator/degree.dart';
+import 'package:eduwise_admin/core%20generator/department.dart';
 import 'package:eduwise_admin/adminpanel/retrive.dart';
-import 'package:eduwise_admin/adminpanel/semester.dart';
+import 'package:eduwise_admin/core%20generator/semester.dart';
 import 'package:eduwise_admin/firebase_options.dart';
 import 'package:eduwise_admin/uploadscreen.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +64,7 @@ class MyAppHomePage extends StatelessWidget {
               children: [
                 ListTile(
                   leading: Icon(Icons.admin_panel_settings, color: Colors.red),
-                  title: Text('Core Items'),
+                  title: Text('Core Generator'),
                   onTap: () {},
                 ),
                 Padding(
@@ -103,6 +103,20 @@ class MyAppHomePage extends StatelessWidget {
                                    Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => SemesterUpload()),
+                                   );
+                                 },
+                               ),
+                 ),
+
+                 Padding(
+                   padding: const EdgeInsets.only(left: 30.0),
+                   child: ListTile(
+                                 leading: Icon(Icons.map, color: Colors.blue),
+                                 title: Text('Course'),
+                                 onTap: () {
+                                   Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Course_Generator( )),
                                    );
                                  },
                                ),
@@ -186,46 +200,10 @@ class MyAppHomePage extends StatelessWidget {
                 // CategoryUpload(); this also not work
               },
             ),
-            ListTile(
-              leading: Icon(Icons.music_note),
-              title: Text('dept. firestore'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FirestoreListView()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.map),
-              title: Text('ktucourse'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FirestoreListView()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.book),
-              title: Text('se'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FirestoreListView()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.code),
-              title: Text('dropdown'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FirestoreListView()),
-                );
-              },
-            ),
+           
+            
+           
+           
            
           ],
         ),
