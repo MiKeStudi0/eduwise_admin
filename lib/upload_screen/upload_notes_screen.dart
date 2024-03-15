@@ -1,3 +1,7 @@
+import 'dart:io';
+import 'package:path/path.dart' as path;
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -15,9 +19,28 @@ class _UploadPdfScreenState extends State<UploadPdfScreen> {
   String? _selectedDepartment;
   String? _selectedSemesterId;
   String? _selectedCourseId;
-    String? _selectedCategoryId;
+  String? _selectedCategoryId;
+    File? _pickedPdf;
+  String? _pdfUrl;
 
-
+Future<Map<String, dynamic>?> getTwoFieldsFromCollection(String collectionPath, String documentId, String courseCode, String courseCredit) async {
+  try {
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection(collectionPath).doc(documentId).get();
+    if (documentSnapshot.exists) {
+      Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+      return {
+        'courseCode': data[courseCode],
+        'courseCredit': data[courseCredit],
+      };
+    } else {
+      print('Document does not exist');
+      return null;
+    }
+  } catch (e) {
+    print('Error retrieving fields: $e');
+    return null;
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -311,33 +334,38 @@ class _UploadPdfScreenState extends State<UploadPdfScreen> {
                       TextFormField(
                         controller: _courseController,
                         decoration: InputDecoration(
-                          labelText: 'Enter Course Name',
+                          labelText: 'Enter Name',
                         ),
                       ),
                       const SizedBox(height: 10),
-                      TextFormField(
-                        controller: _degreeController,
-                        decoration: InputDecoration(
-                          labelText: 'Enter CourseCode',
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        controller: _departmentController,
-                        decoration: InputDecoration(
-                          labelText: 'Enter CourseCredit',
-                        ),
-                      ),
+                      // TextFormField(
+                      //   controller: _degreeController,
+                      //   decoration: InputDecoration(
+                      //     labelText: 'Enter CourseCode',
+                      //   ),
+                      // ),
+                      // const SizedBox(height: 10),
+                      // TextFormField(
+                      //   controller: _departmentController,
+                      //   decoration: InputDecoration(
+                      //     labelText: 'Enter CourseCredit',
+                      //   ),
+                      // ),
+                       ElevatedButton(
+                onPressed: _pickPdf,
+                child: Text(_pickedPdf == null ? 'Pick PDF' : 'PDF Selected'),
+              ),
                       ElevatedButton(
                         onPressed: (_selectedUniversityId != null &&
                             _selectedDegreeId != null &&
                             _selectedDepartment != null &&
-                            _selectedSemesterId != null)
+                            _selectedSemesterId != null
+                            && _pickedPdf != null)
                             ? () {
                           String path =
                               '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedDepartment/Refers/$_selectedSemesterId/Refers';
                           print('Generated Path: $path');
-                          _createSubcollection(path);
+                          _createSubcollection();
                         }
                             : null,
                         child: const Text('Create Subcollection'),
@@ -361,47 +389,79 @@ class _UploadPdfScreenState extends State<UploadPdfScreen> {
     );
   }
 
-  Future<void> _createSubcollection(String path) async {
-    // Reference to the collection
-    CollectionReference collectionRef = FirebaseFirestore.instance.collection(path);
+   // Function to pick a PDF file
+  Future<void> _pickPdf() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
 
-    String courseName = _courseController.text.trim(); // Get course name from input field
-    String courseCode = _degreeController.text.trim(); // Get degree name from input field
-    String courseCredit = _departmentController.text.trim(); // Get department name from input field
-
-    // Check if all input fields are not empty
-    if (courseName.isNotEmpty && courseCode.isNotEmpty && courseCredit.isNotEmpty) {
-      // Generate the data for the new document
-      Map<String, dynamic> data = {
-        'courseCode': courseCode, // Use entered degree name
-        'courseCredit': courseCredit, // Use entered department name
-        'Semester': _selectedSemesterId,
-        'University': _selectedUniversityId,
-        'courseName': courseName, // Use entered course name
-        'Department': _selectedDepartment,
-        'Degree': _selectedDegreeId,
-        // Add more fields if needed
-      };
-
-      // Create the document with the entered course name as the document ID
-      await collectionRef.doc(courseName).set(data); // Use courseName as the document ID
-
-      // Show a SnackBar indicating success
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Subcollection created successfully for Path: $path'),
-      ));
-    } else {
-      // Show error if any input field is empty
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Please fill in all the input fields.'),
-        backgroundColor: Colors.red,
-      ));
+    if (result != null) {
+      setState(() {
+        _pickedPdf = File(result.files.single.path!);
+      });
     }
   }
-}
 
-void main() {
-  runApp(MaterialApp(
-    home: UploadPdfScreen(),
-  ));
+  // Function to create subcollection in Firestore
+  Future<void> _createSubcollection() async {
+    // Check if PDF is selected
+    if (_pickedPdf == null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Please select a PDF file.'),
+        backgroundColor: Colors.red,
+      ));
+      return;
+    }
+
+    // Reference to the collection
+    CollectionReference collectionRef = FirebaseFirestore.instance.collection('/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedDepartment/Refers/$_selectedSemesterId/Refers/$_selectedCourseId/Refers/$_selectedCategoryId/Refers');
+
+    // Extract PDF filename
+    String fileName = path.basename(_pickedPdf!.path);
+
+    // Upload PDF to Firebase Storage with filename as document name
+    Reference ref = FirebaseStorage.instance.ref().child('pdfs/$fileName');
+    TaskSnapshot uploadTask = await ref.putFile(_pickedPdf!);
+    String pdfUrl = await uploadTask.ref.getDownloadURL();
+
+
+    String courseCode = 'courseCode'; // Replace with the name of the first field you want to retrieve
+    String courseCredit = 'courseCredit'; // Replace with the name of the second field you want to retrieve
+  
+  Map<String, dynamic>? fields = await getTwoFieldsFromCollection('/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedDepartment/Refers/$_selectedSemesterId/Refers', '$_selectedCourseId', courseCode, courseCredit);
+  
+  if (fields != null) {
+    
+    print('Field 1 value: ${fields['courseCode']}');
+    courseCredit = fields['courseCredit'];
+    courseCode = fields['courseCode'];
+    print('Field 2 value: ${fields['courseCredit']}');
+  } else {
+    print('Fields not found');
+  }
+   courseCredit = fields!['courseCredit'];
+    courseCode = fields['courseCode'];
+
+    // Generate the data for the new document
+    Map<String, dynamic> data = {
+      'courseCode': fields['courseCredit'],
+      'courseCredit': fields['courseCode'],
+      'Semester': _selectedSemesterId,
+      'University': _selectedUniversityId,
+      'courseName': _selectedCourseId,
+      'Department': _selectedDepartment,
+      'Degree': _selectedDegreeId,
+      'pdfUrl': pdfUrl,
+    };
+
+    // Create the document in Firestore
+    await collectionRef.doc(_courseController.text.trim()).set(data);
+
+    // Show a SnackBar indicating success
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Subcollection created successfully.'),
+    ));
+  }
+
 }
