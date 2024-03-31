@@ -2,6 +2,7 @@ import 'package:eduwise_admin/Generator/category.dart';
 import 'package:eduwise_admin/Generator/course.dart';
 import 'package:eduwise_admin/Generator/degree.dart';
 import 'package:eduwise_admin/Generator/department.dart';
+import 'package:eduwise_admin/Generator/execel.dart';
 import 'package:eduwise_admin/Generator/semester.dart';
 import 'package:eduwise_admin/firebase_options.dart';
 import 'package:eduwise_admin/upload_screen/upload_notes_screen.dart';
@@ -34,6 +35,7 @@ class MyAppHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
         appBar: AppBar(
           title: const Text('Flutter Demo'),
@@ -130,6 +132,20 @@ class MyAppHomePage extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Category_Generator()),
+                        );
+                      },
+                    ),
+                  ),
+                   Padding(
+                    padding: const EdgeInsets.only(left: 30.0),
+                    child: ListTile(
+                      leading: Icon(Icons.install_mobile, color: Colors.blue),
+                      title: Text('Execel Sheet'),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ExelSheetCourse()),
                         );
                       },
                     ),
