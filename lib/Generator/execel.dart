@@ -18,6 +18,8 @@ class _ExelSheetCourseState extends State<ExelSheetCourse> {
   String? _selectedDegreeId;
   String? _selectedDepartment;
   String? _selectedSemesterId;
+
+
 Future<void> _uploadData(File file) async {
   try {
     CollectionReference collectionRef = FirebaseFirestore.instance.collection(
@@ -32,7 +34,7 @@ Future<void> _uploadData(File file) async {
       Map<String, dynamic> record = {
         'courseName': row[0],
         'courseCode': row[1],
-        'courseCredit': row[2],
+        'courseCredit': row[2].toString(), // Convert courseCredit to string
         'University': _selectedUniversityId,
         'Degree': _selectedDegreeId,
         'Department': _selectedDepartment,
@@ -50,6 +52,7 @@ Future<void> _uploadData(File file) async {
     );
   }
 }
+
 
   Future<File?> _selectFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
