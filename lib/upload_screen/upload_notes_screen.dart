@@ -331,26 +331,9 @@ Future<Map<String, dynamic>?> getTwoFieldsFromCollection(String collectionPath, 
                           },
                         ),
                       const SizedBox(height: 20),
-                      TextFormField(
-                        controller: _courseController,
-                        decoration: InputDecoration(
-                          labelText: 'Enter Name',
-                        ),
-                      ),
+                      
                       const SizedBox(height: 10),
-                      // TextFormField(
-                      //   controller: _degreeController,
-                      //   decoration: InputDecoration(
-                      //     labelText: 'Enter CourseCode',
-                      //   ),
-                      // ),
-                      // const SizedBox(height: 10),
-                      // TextFormField(
-                      //   controller: _departmentController,
-                      //   decoration: InputDecoration(
-                      //     labelText: 'Enter CourseCredit',
-                      //   ),
-                      // ),
+                     
                        ElevatedButton(
                 onPressed: _pickPdf,
                 child: Text(_pickedPdf == null ? 'Pick PDF' : 'PDF Selected'),
@@ -402,32 +385,30 @@ Future<Map<String, dynamic>?> getTwoFieldsFromCollection(String collectionPath, 
       });
     }
   }
+Future<void> _createSubcollection() async {
+  // Check if PDF is selected
+  if (_pickedPdf == null) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Please select a PDF file.'),
+      backgroundColor: Colors.red,
+    ));
+    return;
+  }
 
-  // Function to create subcollection in Firestore
-  Future<void> _createSubcollection() async {
-    // Check if PDF is selected
-    if (_pickedPdf == null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Please select a PDF file.'),
-        backgroundColor: Colors.red,
-      ));
-      return;
-    }
+  // Reference to the collection
+  CollectionReference collectionRef = FirebaseFirestore.instance.collection('/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedDepartment/Refers/$_selectedSemesterId/Refers/$_selectedCourseId/Refers/$_selectedCategoryId/Refers/$_selectedCourseId/Refers');
 
-    // Reference to the collection
-    CollectionReference collectionRef = FirebaseFirestore.instance.collection('/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedDepartment/Refers/$_selectedSemesterId/Refers/$_selectedCourseId/Refers/$_selectedCategoryId/Refers');
+  // Extract PDF filename
+  String? fileName = _selectedCourseId; // Use course name as file name
 
-    // Extract PDF filename
-    String fileName = path.basename(_pickedPdf!.path);
-
-    // Upload PDF to Firebase Storage with filename as document name
-    Reference ref = FirebaseStorage.instance.ref().child('pdfs/$fileName');
-    TaskSnapshot uploadTask = await ref.putFile(_pickedPdf!);
-    String pdfUrl = await uploadTask.ref.getDownloadURL();
+  // Upload PDF to Firebase Storage with course name as document name
+  Reference ref = FirebaseStorage.instance.ref().child('pdfs//University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedDepartment/Refers/$_selectedSemesterId/Refers/$_selectedCourseId/Refers/$_selectedCategoryId/Refers/$_selectedCourseId/Refers/$fileName.pdf');
+  TaskSnapshot uploadTask = await ref.putFile(_pickedPdf!);
+  String pdfUrl = await uploadTask.ref.getDownloadURL();
 
 
-    String courseCode = 'courseCode'; // Replace with the name of the first field you want to retrieve
-    String courseCredit = 'courseCredit'; // Replace with the name of the second field you want to retrieve
+  String courseCode = 'courseCode'; // Replace with the name of the first field you want to retrieve
+  String courseCredit = 'courseCredit'; // Replace with the name of the second field you want to retrieve
   
   Map<String, dynamic>? fields = await getTwoFieldsFromCollection('/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedDepartment/Refers/$_selectedSemesterId/Refers', '$_selectedCourseId', courseCode, courseCredit);
   
@@ -456,12 +437,12 @@ Future<Map<String, dynamic>?> getTwoFieldsFromCollection(String collectionPath, 
     };
 
     // Create the document in Firestore
-    await collectionRef.doc(_courseController.text.trim()).set(data);
+    await collectionRef.doc(_selectedCourseId).set(data);
 
     // Show a SnackBar indicating success
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text('Subcollection created successfully.'),
     ));
-  }
+}
 
 }
