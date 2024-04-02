@@ -396,13 +396,13 @@ Future<void> _createSubcollection() async {
   }
 
   // Reference to the collection
-  CollectionReference collectionRef = FirebaseFirestore.instance.collection('/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedDepartment/Refers/$_selectedSemesterId/Refers/$_selectedCourseId/Refers/$_selectedCategoryId/Refers/$_selectedCourseId/Refers');
+  CollectionReference collectionRef = FirebaseFirestore.instance.collection('/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedDepartment/Refers/$_selectedSemesterId/Refers/$_selectedCourseId/Refers/$_selectedCategoryId/Refers/');
 
   // Extract PDF filename
   String? fileName = _selectedCourseId; // Use course name as file name
 
   // Upload PDF to Firebase Storage with course name as document name
-  Reference ref = FirebaseStorage.instance.ref().child('pdfs//University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedDepartment/Refers/$_selectedSemesterId/Refers/$_selectedCourseId/Refers/$_selectedCategoryId/Refers/$_selectedCourseId/Refers/$fileName.pdf');
+  Reference ref = FirebaseStorage.instance.ref().child('pdfs/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedDepartment/Refers/$_selectedSemesterId/Refers/$_selectedCourseId/Refers/$_selectedCategoryId/Refers/$_selectedCourseId/Refers/$fileName.pdf');
   TaskSnapshot uploadTask = await ref.putFile(_pickedPdf!);
   String pdfUrl = await uploadTask.ref.getDownloadURL();
 
