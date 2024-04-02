@@ -11,9 +11,9 @@ class UploadPdfScreen extends StatefulWidget {
 }
 
 class _UploadPdfScreenState extends State<UploadPdfScreen> {
-  TextEditingController _courseController = TextEditingController();
-  TextEditingController _degreeController = TextEditingController(); // New controller
-  TextEditingController _departmentController = TextEditingController(); // New controller
+  // TextEditingController _courseController = TextEditingController();
+  // TextEditingController _degreeController = TextEditingController(); // New controller
+  // TextEditingController _departmentController = TextEditingController(); // New controller
   String? _selectedUniversityId;
   String? _selectedDegreeId;
   String? _selectedDepartment;
@@ -21,7 +21,7 @@ class _UploadPdfScreenState extends State<UploadPdfScreen> {
   String? _selectedCourseId;
   String? _selectedCategoryId;
     File? _pickedPdf;
-  String? _pdfUrl;
+  // String? _pdfUrl;
 
 Future<Map<String, dynamic>?> getTwoFieldsFromCollection(String collectionPath, String documentId, String courseCode, String courseCredit) async {
   try {
