@@ -11,7 +11,6 @@ class _Category_GeneratorState extends State<Category_Generator> {
   String? _selectedDegreeId;
   String? _selectedDepartment;
   String? _selectedSemesterId;
-  String? _selectedCourse;  
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +170,6 @@ class _Category_GeneratorState extends State<Category_Generator> {
                                   setState(() {
                                     _selectedDepartment = newValue;
                                     _selectedSemesterId =  null; // Reset selected semester
-                                   // _updateSelectedPath(); // Update selected path
                                   });
                                 },
                                 items: DepartmentSnapshot.data!.docs
@@ -244,61 +242,6 @@ class _Category_GeneratorState extends State<Category_Generator> {
                           );
                         },
                       ),
-                        const SizedBox(height: 20),
-                    if (_selectedSemesterId != null)
-                      StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection(
-                                '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedDepartment/Refers/$_selectedSemesterId/Refers')
-                            .snapshots(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> CourseSnapshot) {
-                          if (CourseSnapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          if (!CourseSnapshot.hasData ||
-                              CourseSnapshot.data!.docs.isEmpty) {
-                            return const Center(
-                              child: Text(
-                                  'No Course found for the selected Department'),
-                            );
-                          }
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Select a Course:',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(height: 10),
-                              DropdownButton<String>(
-                                isExpanded: true,
-                                hint: const Text('Select a Course'),
-                                value: _selectedCourse,
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    _selectedCourse = newValue;
-                                  });
-                                },
-                                items: CourseSnapshot.data!.docs
-                                    .map((DocumentSnapshot document) {
-                                  return DropdownMenuItem<String>(
-                                    value: document.id,
-                                    child: Text(
-                                      document.id,
-                                      style: const TextStyle(fontSize: 14),
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
                   ],
                 );
               },
@@ -312,7 +255,7 @@ class _Category_GeneratorState extends State<Category_Generator> {
                       _selectedSemesterId != null)
                   ? () {
                       String path =
-                          '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedDepartment/Refers/$_selectedSemesterId/Refers/$_selectedCourse/Refers';
+                          '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedDepartment/Refers/$_selectedSemesterId/Refers';
                       print('Generated Path: $path');
                       _createSubcollection(path);
                     }
@@ -334,41 +277,50 @@ class _Category_GeneratorState extends State<Category_Generator> {
     );
   }
 
+  
   Future<void> _createSubcollection(String path) async {
     // Reference to the collection
-    CollectionReference collectionRef = FirebaseFirestore.instance.collection(path);
+    CollectionReference collectionRef =
+        FirebaseFirestore.instance.collection(path);
+
+    // Fetch all documents under the selected semester
+    QuerySnapshot snapshot = await collectionRef.get();
 
     // List of predefined document IDs
-    List<String> predefinedDocumentIds = ['Syllabus', 'Notes', 'Text Book','Question Bank','Question Paper','Academic Calender','Lab Manual','Exam Table','Credit System' ]; // Add your predefined document IDs here
+    List<String> predefinedDocumentIds = [
+      'Syllabus',
+      'Notes',
+      'Text Book',
+      'Question Bank',
+      'Question Paper',
+      'Academic Calender',
+      'Lab Manual',
+      'Exam Table',
+      'Credit System'
+    ]; // Add your predefined document IDs here
 
-    // Create documents with predefined IDs
-    for (String _Department in predefinedDocumentIds) {
-      // Generate the data for the new document
-      Map<String, dynamic> data = {
-        'Degree': _selectedDegreeId,
-        'Department': _selectedDepartment,
-        'Semester': _selectedSemesterId,
-        'University': _selectedUniversityId,
-        'selectedDocumentId' : _selectedCourse,
-        'category':_Department
-        // Add more fields if needed
-      };
+    // Iterate through each document in the selected semester
+    snapshot.docs.forEach((semesterDocument) async {
+      // Create documents with predefined IDs inside each semester document
+      for (String documentId in predefinedDocumentIds) {
+        // Generate the data for the new document
+        Map<String, dynamic> data = {
+          'Degree': _selectedDegreeId,
+          'Department': _selectedDepartment,
+          'Semester': _selectedSemesterId,
+          'University': _selectedUniversityId,
+          'selectedDocumentId': documentId,
+          // Add more fields if needed
+        };
 
-      // Create the document with the predefined ID
-      await collectionRef.doc(_Department).set(data);
-    }
+        // Create the document with the document ID
+        await semesterDocument.reference.collection('Refers').doc(documentId).set(data);
+      }
+    });
 
     // Show a SnackBar indicating success
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text('Subcollection created successfully for Path: $path'),
     ));
   }
-
-
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: Category_Generator(),
-  ));
 }
