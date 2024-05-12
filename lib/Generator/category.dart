@@ -309,7 +309,8 @@ class _Category_GeneratorState extends State<Category_Generator> {
           'Department': _selectedDepartment,
           'Semester': _selectedSemesterId,
           'University': _selectedUniversityId,
-          'selectedDocumentId': documentId,
+          'category': documentId,
+          'selectedDocumentId': semesterDocument.id,
           // Add more fields if needed
         };
 
