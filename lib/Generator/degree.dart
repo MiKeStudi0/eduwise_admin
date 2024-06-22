@@ -1,4 +1,3 @@
-import 'package:eduwise_admin/Generator/department.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
